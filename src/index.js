@@ -11,7 +11,7 @@ import {
 } from "react-native";
 
 import SwipeIcon from "./components/SwipeIcon";
-import images from "../../assets/images";
+import images from "./assets/images";
 
 const MARGIN_TOP = Platform.OS === "ios" ? 20 : 0;
 const DEVICE_HEIGHT = Dimensions.get("window").height - MARGIN_TOP;
@@ -53,7 +53,14 @@ export default class SwipeUpDown extends Component<Props> {
 
   componentWillMount() {
     this._panResponder = PanResponder.create({
-      onMoveShouldSetPanResponder: (event, gestureState) => true,
+      onMoveShouldSetPanResponder: (event, gestureState) => {
+        const {dx, dy} = gestureState;
+        if (dx!==0 && dy!==0 && dy/dx!==Math.abs(0) && dy/dx!==-1) { 
+          return true
+        }else{ 
+          return false
+        }
+      },
       onPanResponderMove: this._onPanResponderMove.bind(this),
       onPanResponderRelease: this._onPanResponderRelease.bind(this)
     });
@@ -136,7 +143,7 @@ export default class SwipeUpDown extends Component<Props> {
       ? DEVICE_HEIGHT - this.SWIPE_HEIGHT
       : DEVICE_HEIGHT;
     this.customStyle.style.height = itemMini ? this.SWIPE_HEIGHT : 0;
-    this.swipeIconRef && this.swipeIconRef.setState({ showIcon: false });
+    this.swipeIconRef && this.swipeIconRef.setState({ showIcon: true });
     this.updateNativeProps();
     !this.state.collapsed && this.setState({ collapsed: true });
     this.checkCollapsed = true;
