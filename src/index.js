@@ -13,7 +13,7 @@ import {
 import SwipeIcon from "./components/SwipeIcon";
 import images from "./assets/images";
 
-const MARGIN_TOP = Platform.OS === "ios" ? 20 : 0;
+const MARGIN_TOP = 40;
 const DEVICE_HEIGHT = Dimensions.get("window").height - MARGIN_TOP;
 type Props = {
   hasRef?: () => void,
@@ -137,8 +137,8 @@ export default class SwipeUpDown extends Component<Props> {
   }
 
   showMini() {
-    const { onShowMini, itemMini } = this.props;
-    this.SWIPE_HEIGHT = 150; //Avoid hiding when swiping down.
+    const { onShowMini, itemMini, swipeHeight } = this.props;
+    this.SWIPE_HEIGHT = swipeHeight; //Avoid hiding when swiping down.
     this.customStyle.style.top = itemMini
       ? DEVICE_HEIGHT - this.SWIPE_HEIGHT
       : DEVICE_HEIGHT;
